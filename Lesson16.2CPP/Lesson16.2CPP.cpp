@@ -1,8 +1,10 @@
 ﻿// Lesson16.2CPP.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
+#include <iostream>
+/*
 #define _USE_MATH_DEFINES
 
-#include <iostream>
+
 #include <numbers>
 #include <math.h>
 
@@ -54,11 +56,67 @@ public:
         return out;
     }
 };
+*/
 
+class Airplane
+{
+private:
+    std::string _type;
+    int _currentCountPassengers;
+    int _maxCountPassengers;
+public:
+    Airplane(std::string type, int passengers, int maxpassengers)
+    {
+        _type = type;
+        _currentCountPassengers = passengers;
+        _maxCountPassengers = maxpassengers;
+    }
+
+    bool operator==(Airplane plane)
+    {
+        return (_type == plane._type && _maxCountPassengers == plane._maxCountPassengers);
+    }
+    friend Airplane operator++(Airplane& plane)
+    {
+        ++plane._currentCountPassengers;
+        return plane;
+    }
+    friend Airplane operator--(Airplane& plane)
+    {
+        ++plane._currentCountPassengers;
+        return plane;
+    }    
+    bool operator>(Airplane& plane)
+    {
+        return (_maxCountPassengers > plane._maxCountPassengers);
+    }
+    bool operator<(Airplane& plane)
+    {
+        return (_maxCountPassengers < plane._maxCountPassengers);
+    }
+    friend std::ostream& operator<<(std::ostream& out, Airplane plane)
+    {
+        out << "Тип самолета: " << plane._type << "\n";
+        out << "Количество пассажиров: " << plane._currentCountPassengers << "\n";
+        out << "Максимальная вместимость: " << plane._maxCountPassengers << "\n";
+        return out;
+    }
+};
 int main()
 {    
     setlocale( LC_ALL, "Russian");
-    Circle circle1(1, 1, 5);
+
+    Airplane plane("Boieng", 5, 100);
+    Airplane plane2("Boieng", 15, 95);
+    std::cout << plane;
+    ++plane;
+    std::cout << plane;
+
+    std::cout << (plane < plane2) << "\n";
+
+    std::cout << (plane > plane2) << "\n";
+
+    /*Circle circle1(1, 1, 5);
     Circle circle2(2, 5, 2);
 
     std::cout << (circle1 == circle2) << "\n";
@@ -69,8 +127,9 @@ int main()
     std::cout << circle1 << "\n";
     circle1 -= 3.0;
     std::cout << circle1 << "\n";
-
+    */
     std::cout << "Hello World!\n";
+    return 0;
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
